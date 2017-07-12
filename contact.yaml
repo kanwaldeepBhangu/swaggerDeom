@@ -1,0 +1,71 @@
+swagger: '2.0'
+
+################################################################################
+#                              Contact Information                                 #
+################################################################################
+info:
+  title: Phone Service
+  description: |
+    APIs for the Phone Service provide contact information.
+
+  version: "1.0.0"
+basePath: /phone
+produces:
+  - application/json
+################################################################################
+#                           Input   Parameters                                      #
+################################################################################
+parameters:
+ personName:
+    name: contactName
+    description: The Name of the person
+    in: path
+    required: true
+    type: string
+
+################################################################################
+#                              Paths                                           #
+################################################################################
+paths:
+  /phone/{contactName}:
+    get:
+      summary: Get the contact number as per input
+      description: |
+        Provides the contact number for person
+      operationId: getSarLevels
+      parameters:
+       - $ref: '#/parameters/personName'
+      responses:
+        200:
+          description: Successful REST response returns the contact information.
+          schema:
+            $ref: "#/definitions/ContactInformation"
+        422:
+          description: Invalid person name
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Internal server error
+          schema:
+            $ref: "#/definitions/Error"
+
+################################################################################
+#                              Definitions                                     #
+################################################################################
+definitions:
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - code
+      - message
+
+  ContactInformation:
+    type: object
+    properties:
+       contactNumber:
+         type: string
